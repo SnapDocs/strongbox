@@ -33,8 +33,7 @@ plain_text = user.secret.decrypt 'letmein'
 
 ## Environment
 
-Strongbox is tested against Rails 2.3 and 3.x using Ruby 1.8.7, 1.9.2,
-and 1.9.3.
+Strongbox is tested against Rails 4.x using Ruby 2.4.1
 
 ## Installation
 
@@ -61,7 +60,7 @@ class User < ActiveRecord::Base
     :key_pair => Rails.root.join('config','keypair.pem')
 end
 ```
-  
+
 In your migrations:
 
 ```ruby
@@ -73,7 +72,7 @@ class AddSecretColumnsToUser < ActiveRecord::Migration
   end
 end
 ```
-  
+
 Generate a key pair:
 
 (Choose a strong password.)
@@ -134,7 +133,7 @@ key for extra security, and Base64 encoding the encrypted data:
 ```ruby
 class User < ActiveRecord::Base
   validates_length_of :pin_code, :is => 4
-  encrypt_with_public_key :pin_code, 
+  encrypt_with_public_key :pin_code,
     :symmetric => :never,
     :base64 => true,
     :public_key => Rails.root.join('config','public.pem')
