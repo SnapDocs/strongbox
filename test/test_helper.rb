@@ -13,7 +13,7 @@ require 'strongbox'
 
 ENV['RAILS_ENV'] ||= 'test'
 
-FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures") 
+FIXTURES_DIR = File.join(File.dirname(__FILE__), "fixtures")
 config = YAML::load(IO.read(File.dirname(__FILE__) + '/database.yml'))
 ActiveRecord::Base.logger = Logger.new(File.dirname(__FILE__) + "/debug.log")
 ActiveRecord::Base.establish_connection(config['test'])
@@ -65,7 +65,7 @@ def generate_key_pair(password = nil,size = 2048)
   rsa_key = OpenSSL::PKey::RSA.new(size)
   # If no password is provided, don't encrypt the key
   return rsa_key if password.blank?
-  cipher =  OpenSSL::Cipher::Cipher.new('des3')
+  cipher =  OpenSSL::Cipher.new('des3')
   key_pair = rsa_key.to_pem(cipher,password)
   key_pair << rsa_key.public_key.to_pem
   return key_pair
