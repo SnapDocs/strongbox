@@ -9,7 +9,7 @@ $LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 require 'strongbox'
 
 desc 'Default: run tests.'
-task :default => :test
+task default: :test
 
 desc 'Test the strongbox gem.'
 Rake::TestTask.new(:test) do |t|
@@ -27,13 +27,13 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-desc "Generate a gemspec file for GitHub"
+desc 'Generate a gemspec file for GitHub'
 task :gemspec do
   $spec = eval(File.read('strongbox.gemspec'))
   $spec.validate
 end
 
-desc "Build the gem"
-task :build  => :gemspec do
+desc 'Build the gem'
+task build: :gemspec do
   Gem::Builder.new($spec).build
 end
