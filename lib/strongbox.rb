@@ -4,32 +4,29 @@ require 'base64'
 require 'strongbox/lock'
 
 module Strongbox
-
-  VERSION = "0.7.2"
+  VERSION = '0.7.2'.freeze
 
   RSA_PKCS1_PADDING	= OpenSSL::PKey::RSA::PKCS1_PADDING
-  RSA_SSLV23_PADDING	= OpenSSL::PKey::RSA::SSLV23_PADDING
-  RSA_NO_PADDING		= OpenSSL::PKey::RSA::NO_PADDING
-  RSA_PKCS1_OAEP_PADDING	= OpenSSL::PKey::RSA::PKCS1_OAEP_PADDING
+  RSA_SSLV23_PADDING = OpenSSL::PKey::RSA::SSLV23_PADDING
+  RSA_NO_PADDING = OpenSSL::PKey::RSA::NO_PADDING
+  RSA_PKCS1_OAEP_PADDING = OpenSSL::PKey::RSA::PKCS1_OAEP_PADDING
 
   class << self
     # Provides for setting the default options for Strongbox
     def options
       @options ||= {
-        :base64 => false,
-        :symmetric => :always,
-        :padding => RSA_PKCS1_PADDING,
-        :symmetric_cipher => 'aes-256-cbc',
-        :ensure_required_columns => true,
-        :deferred_encryption => false
+        base64: false,
+        symmetric: :always,
+        padding: RSA_PKCS1_PADDING,
+        symmetric_cipher: 'aes-256-cbc',
+        ensure_required_columns: true,
+        deferred_encryption: false
       }
     end
 
-    def included base #:nodoc:
+    def included(base) #:nodoc:
       base.extend ClassMethods
-      if base.respond_to?(:class_attribute)
-        base.class_attribute :lock_options
-      end
+      base.class_attribute :lock_options if base.respond_to?(:class_attribute)
     end
   end
 
@@ -77,7 +74,7 @@ module Strongbox
         lock_for(name)
       end
 
-      define_method "#{name}=" do | plaintext |
+      define_method "#{name}=" do |plaintext|
         lock_for(name).content plaintext
       end
 
@@ -90,13 +87,13 @@ module Strongbox
   end
 
   module InstanceMethods
-    def lock_for name
+    def lock_for(name)
       @_locks ||= {}
       @_locks[name] ||= Lock.new(name, self, self.class.lock_options[name])
     end
   end
 end
 
-if Object.const_defined?("ActiveRecord")
+if Object.const_defined?('ActiveRecord')
   ActiveRecord::Base.send(:include, Strongbox)
 end

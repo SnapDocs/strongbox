@@ -4,8 +4,8 @@ class ProcKeyTest < Test::Unit::TestCase
   context 'With a Proc returning a string for a key pair' do
     setup do
       @password = 'boost facile'
-      rebuild_model :key_pair => Proc.new {
-        File.read(File.join(FIXTURES_DIR,'keypair.pem'))
+      rebuild_model key_pair: proc {
+        File.read(File.join(FIXTURES_DIR, 'keypair.pem'))
       }
       @dummy = Dummy.new
       @dummy.secret = 'Shhhh'
@@ -18,7 +18,7 @@ class ProcKeyTest < Test::Unit::TestCase
     setup do
       @password = 'boost facile'
       @private_key = OpenSSL::PKey::RSA.new(2048)
-      rebuild_model :key_pair => Proc.new { @private_key }
+      rebuild_model key_pair: proc { @private_key }
       @dummy = Dummy.new
       @dummy.secret = 'Shhhh'
     end
@@ -29,10 +29,10 @@ class ProcKeyTest < Test::Unit::TestCase
   context 'With Procs returning public and private key strings' do
     setup do
       @password = 'boost facile'
-      @key_pair = File.read(File.join(FIXTURES_DIR,'keypair.pem'))
+      @key_pair = File.read(File.join(FIXTURES_DIR, 'keypair.pem'))
 
-      rebuild_model :public_key => Proc.new { @key_pair },
-                    :private_key => Proc.new { @key_pair } 
+      rebuild_model public_key: proc { @key_pair },
+                    private_key: proc { @key_pair }
       @dummy = Dummy.new
       @dummy.secret = 'Shhhh'
     end
@@ -46,8 +46,8 @@ class ProcKeyTest < Test::Unit::TestCase
       @private_key = OpenSSL::PKey::RSA.new(2048)
       @public_key = @private_key.public_key
 
-      rebuild_model :public_key => Proc.new { @public_key },
-                    :private_key => Proc.new { @private_key } 
+      rebuild_model public_key: proc { @public_key },
+                    private_key: proc { @private_key }
       @dummy = Dummy.new
       @dummy.secret = 'Shhhh'
     end
