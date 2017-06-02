@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SnapDocs/strongbox.svg?branch=master)](https://travis-ci.org/SnapDocs/strongbox)
+
 # Strongbox
 
 Strongbox provides [Public Key
